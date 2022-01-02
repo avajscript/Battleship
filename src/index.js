@@ -21,6 +21,23 @@ window.addEventListener(
   { once: true }
 ); */
 
+function playerMove(square) {
+  if (square.classlist.contains("square-ship")) {
+  } else {
+  }
+}
+
+function startGame() {
+  const computerBoardElem = document.querySelector(".computer-board"),
+    computerSquares = document.querySelectorAll(".computer-square");
+  computerSquares.forEach((square) => {
+    square.classList.add("hover");
+    square.addEventListener("click", (e) => {
+      playerMove(e.currentTarget);
+    });
+  });
+}
+
 function updateGameboard(ship) {
   const shipValues = [...document.querySelectorAll(".ship-val")];
   playerBoard.shipsToRender[ship]--;
@@ -39,9 +56,9 @@ function updateGameboard(ship) {
       return value.innerText == 0;
     })
   ) {
-    console.log("trueee");
     const navBar = document.querySelector(".intro-sidebar");
     navBar.classList.add("hide-nav");
+    startGame();
   }
 }
 function renderShip(squares, ship) {
@@ -140,7 +157,7 @@ function randomNumber(num) {
   return Math.floor(Math.random() * num);
 }
 
-function preRenderEnemyShip(ship, amount, computerBoardElem) {
+function preRenderEnemyShip(ship, amount) {
   let length;
   for (let i = 0; i < amount; i++) {
     length = computerBoard.shipInfo[ship].length;
@@ -153,7 +170,6 @@ function preRenderEnemyShip(ship, amount, computerBoardElem) {
     for (let j = 0; j < length; j++) {
       indexes.push(parseInt(index) + j);
     }
-    console.log(computerBoardElem);
 
     if (
       indexes.every((index) => {
@@ -165,14 +181,15 @@ function preRenderEnemyShip(ship, amount, computerBoardElem) {
         let square = document.querySelector(`#c-${index}`);
         square.classList.add("square-ship");
       });
+    } else {
+      amount++;
     }
   }
 }
 
 function renderComputerBoard() {
-  const computerBoardElem = document.querySelector(".computer-board");
   for (const [key, value] of Object.entries(computerBoard.shipsToRender)) {
-    preRenderEnemyShip(key, value, computerBoardElem);
+    preRenderEnemyShip(key, value);
   }
 }
 export function renderGameBoards() {
