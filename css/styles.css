@@ -1,0 +1,151 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+:root {
+  --game-width: 300px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  line-height: 75px;
+}
+
+.ship-val {
+  position: absolute;
+  left: 10px;
+}
+
+.gameboards-container {
+  display: flex;
+  justify-content: center;
+}
+
+.gameboard {
+  width: var(--game-width);
+  height: var(--game-width);
+  border: 1px solid black;
+  display: inline-block;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+}
+
+.square {
+  border: 1px solid black;
+}
+
+.player-board {
+  margin-right: 1rem;
+}
+
+.computer-board {
+  margin-left: 1rem;
+}
+
+.intro-screen {
+  position: absolute;
+  background-color: black;
+  color: white;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  display: block;
+}
+
+.intro-screen h1 {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+}
+
+nav.intro-sidebar {
+  position: absolute;
+  width: 250px;
+  border: 1px solid black;
+  height: 100vh;
+  top: 0;
+  background: #fff;
+  padding: 10px;
+  text-align: center;
+  left: 0px;
+  transition: left 1s ease;
+}
+
+nav.intro-sidebar ul {
+  margin-top: 3rem;
+}
+
+nav.intro-sidebar li {
+  padding-bottom: 2rem;
+}
+
+.hide-nav {
+  left: -250px !important;
+}
+
+.carrier, .battleship, .destroyer, .patrol {
+  display: grid;
+  width: calc(var(--square-width) * 5);
+  margin: auto;
+  height: var(--square-width);
+  grid-template-rows: repeat(1, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.draggable {
+  cursor: pointer;
+}
+
+.dragging {
+  background-color: #d3d3d3;
+}
+
+.battleship {
+  width: calc(var(--square-width) * 4);
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.destroyer {
+  width: calc(var(--square-width) * 3);
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.patrol {
+  width: calc(var(--square-width) * 2);
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.square-hover {
+  background-color: #2E67F8;
+}
+
+.square-ship {
+  background-color: #EB212E;
+}
+
+@media only screen and (min-width: 300px) {
+  :root {
+    --game-width:250px;
+    --square-width: calc(var(--game-width) / 10);
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  :root {
+    --game-width:300px;
+    --square-width: calc(var(--game-width) / 10);
+  }
+}
