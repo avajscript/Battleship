@@ -13,12 +13,7 @@ export function randomNumber(num) {
   return Math.floor(Math.random() * num);
 }
 
-export function preRenderEnemyShip(
-  ship,
-  amount,
-  computerBoard,
-  computerBoardElem
-) {
+export function preRenderEnemyShip(ship, amount, computerBoardElem) {
   let length;
   for (let i = 0; i < amount; i++) {
     length = computerBoard.shipInfo[ship].length;
@@ -32,25 +27,25 @@ export function preRenderEnemyShip(
       indexes.push(parseInt(index) + j);
     }
     console.log(computerBoardElem);
-    
+
     if (
       indexes.every((index) => {
         let square = document.querySelector(`#c-${index}`);
-        return !square.classList.contains('square-ship');
+        return !square.classList.contains("square-ship");
       })
     ) {
-      indexes.forEach(index => {
-        index.
+      indexes.forEach((index) => {
+        let square = document.querySelector(`#c-${index}`);
+        square.classList.add("square-ship");
       });
     }
   }
 }
 
 export function renderComputerBoard() {
-  const computerBoardElem = document.querySelector(".computer-board"),
-    computerBoard = new Gameboard();
+  const computerBoardElem = document.querySelector(".computer-board");
   for (const [key, value] of Object.entries(computerBoard.shipsToRender)) {
-    preRenderEnemyShip(key, value, computerBoard, computerBoardElem);
+    preRenderEnemyShip(key, value, computerBoardElem);
   }
 }
 

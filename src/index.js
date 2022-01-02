@@ -3,10 +3,11 @@ import {
   Carrier,
   Battleship,
   Destroyer,
-  Patrol
+  Patrol,
 } from "./classes.js";
-import { renderComputerBoard } from "./functions.js";
+
 import { BOARD_SQUARES, shipNames } from "./variables.js";
+
 const introScreen = document.querySelector(".intro-screen"),
   draggables = document.querySelectorAll(".draggable");
 // Functions
@@ -20,7 +21,6 @@ window.addEventListener(
   { once: true }
 ); */
 
-renderComputerBoard();
 function updateGameboard(ship) {
   const shipValues = [...document.querySelectorAll(".ship-val")];
   playerBoard.shipsToRender[ship]--;
@@ -127,6 +127,54 @@ function renderShips() {
     playerBoard.ships.push(ship);
   });
 }
+
+function findSquare(column, row) {
+  return column === 0 && row === 0
+    ? 0
+    : column === 0 && row > 0
+    ? row
+    : `${column}${row}`;
+}
+
+function randomNumber(num) {
+  return Math.floor(Math.random() * num);
+}
+
+function preRenderEnemyShip(ship, amount, computerBoardElem) {
+  let length;
+  for (let i = 0; i < amount; i++) {
+    length = computerBoard.shipInfo[ship].length;
+
+    let column = randomNumber(10);
+    let row = randomNumber(10 - length);
+    let index = findSquare(column, row);
+    let indexes = [];
+
+    for (let j = 0; j < length; j++) {
+      indexes.push(parseInt(index) + j);
+    }
+    console.log(computerBoardElem);
+
+    if (
+      indexes.every((index) => {
+        let square = document.querySelector(`#c-${index}`);
+        return !square.classList.contains("square-ship");
+      })
+    ) {
+      indexes.forEach((index) => {
+        let square = document.querySelector(`#c-${index}`);
+        square.classList.add("square-ship");
+      });
+    }
+  }
+}
+
+function renderComputerBoard() {
+  const computerBoardElem = document.querySelector(".computer-board");
+  for (const [key, value] of Object.entries(computerBoard.shipsToRender)) {
+    preRenderEnemyShip(key, value, computerBoardElem);
+  }
+}
 export function renderGameBoards() {
   const playerBoard = document.querySelector(".player-board"),
     computerBoard = document.querySelector(".computer-board");
@@ -158,6 +206,11 @@ export function renderGameBoards() {
     }
   })();
 }
+
 const playerBoard = new Gameboard();
 const computerBoard = new Gameboard();
-renderGameBoards();
+function renderGame() {
+  renderGameBoards();
+  renderComputerBoard();
+}
+renderGame();
