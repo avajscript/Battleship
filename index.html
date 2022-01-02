@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./src/styles.scss" />
+    <script type="module" defer src="./src/functions.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <!--
+      <section class="intro-screen">
+        <h1>Type any key to play</h1>
+      </section> -->
+      <header class="header">
+        <h1>BATTLESHIP</h1>
+      </header>
+
+      <nav class="intro-sidebar">
+        <h2>Place Your Ships</h2>
+        <ul>
+          <li class="carrier-container">
+            <h2 class="ship-val">1</h2>
+            <div class="draggable carrier" draggable="true">
+              <div class="square"></div>
+              <div class="square"></div>
+              <div class="square"></div>
+              <div class="square"></div>
+              <div class="square"></div>
+            </div>
+          </li>
+          <li class="battleship-container">
+            <h2 class="ship-val">1</h2>
+            <div class="draggable battleship" draggable="true">
+              <div class="square"></div>
+              <div class="square"></div>
+              <div class="square"></div>
+              <div class="square"></div>
+            </div>
+          </li>
+          <li class="destroyer-container">
+            <h2 class="ship-val">2</h2>
+            <div class="draggable destroyer" draggable="true">
+              <div class="square"></div>
+              <div class="square"></div>
+              <div class="square"></div>
+            </div>
+          </li>
+          <li class="patrol-container">
+            <h2 class="ship-val">1</h2>
+            <div class="draggable patrol" draggable="true">
+              <div class="square"></div>
+              <div class="square"></div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="gameboards-container">
+        <div class="gameboard player-board"></div>
+        <div class="gameboard computer-board"></div>
+      </div>
+    </main>
+  </body>
+</html>
