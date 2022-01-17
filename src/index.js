@@ -44,6 +44,7 @@ function displayMessage(state) {
 }
 
 function playerMove(square) {
+  square = square.currentTarget;
   removeClicks(true);
   let circle = document.createElement("div");
   if (square.classList.contains("square-ship")) {
@@ -51,6 +52,7 @@ function playerMove(square) {
     circle.classList.add("hit-square");
     displayMessage(true);
   } else {
+    square.classList.add("clicked");
     circle.classList.add("miss-square");
     displayMessage(false);
   }
@@ -61,16 +63,18 @@ function removeClicks(state) {
   if (state) {
     computerSquares.forEach((square) => {
       square.classList.remove("hover");
-      square.removeEventListener("click", (e) => {
-        playerMove(e.currentTarget);
-      });
+      square.removeEventListener("click", playerMove, true);
     });
     setTimeout(() => {
       computerSquares.forEach((square) => {
-        square.classList.add("hover");
-        square.addEventListener("click", (e) => {
-          playerMove(e.currentTarget);
-        });
+        if (
+          !square.classList.contains("hit") &&
+          !square.classList.contains("clicked")
+        ) {
+          square.classList.add("hover");
+
+          square.addEventListener("click", playerMove, true);
+        }
       });
     }, 3000);
   } else {
@@ -81,9 +85,7 @@ function startGame() {
     computerSquares = document.querySelectorAll(".computer-square");
   computerSquares.forEach((square) => {
     square.classList.add("hover");
-    square.addEventListener("click", (e) => {
-      playerMove(e.currentTarget);
-    });
+    square.addEventListener("click", playerMove, true);
   });
 }
 
