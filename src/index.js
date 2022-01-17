@@ -20,7 +20,30 @@ window.addEventListener(
   },
   { once: true }
 ); */
-
+function computerMove() {
+  const index = randomNumber(BOARD_SQUARES * 10);
+}
+function updateCoords(id, board) {
+  let realIndex;
+  for (const [shipName, shipArr] of Object.entries(board.shipCoords)) {
+    shipArr.forEach((ship) => {
+      const index = ship.findIndex((shipValue) => {
+        return shipValue == id;
+      });
+      if (index !== -1) {
+        ship[index] += "-hit";
+        const state = ship.every((shipValue) => {
+          return /-hit/.test(shipValue);
+        });
+        if (state) {
+          setTimeout(() => {
+            displayActualText(`You destroyed a ${shipName}`);
+          }, 2000);
+        }
+      }
+    });
+  }
+}
 function displayActualText(msg) {
   const h2Holder = document.querySelector(".output-field");
   h2Holder.innerHTML = "";
@@ -51,12 +74,15 @@ function playerMove(square) {
     square.classList.add("hit");
     circle.classList.add("hit-square");
     displayMessage(true);
+    const id = square.id.match(/\d+/);
+    updateCoords(id[0], computerBoard);
   } else {
     square.classList.add("clicked");
     circle.classList.add("miss-square");
     displayMessage(false);
   }
   square.appendChild(circle);
+  computerMove();
 }
 function removeClicks(state) {
   const computerSquares = document.querySelectorAll(".computer-square");
