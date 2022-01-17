@@ -1,5 +1,5 @@
-$red:#EB212E;
-$blue: #2E67F8;
+$red: #eb212e;
+$blue: #2e67f8;
 
 * {
   margin: 0;
@@ -10,52 +10,54 @@ body {
   font-family: sans-serif;
 }
 
-:root{
+:root {
   --game-width: 300px;
 }
 
-.header{
-  text-align:center;
+.header {
+  text-align: center;
   margin-bottom: 2rem;
-  h1{
+  h1 {
     font-size: 2.5rem;
     line-height: 75px;
   }
 }
-
-.ship-val{
+// Reusable
+.hover {
+  cursor: pointer;
+}
+.ship-val {
   position: absolute;
-  left:10px;
+  left: 10px;
 }
 
-
-.gameboards-container{
+.gameboards-container {
   display: flex;
   justify-content: center;
 }
 
-.gameboard{
+.gameboard {
   width: var(--game-width);
   height: var(--game-width);
   border: 1px solid black;
   display: inline-block;
-  display:grid;
+  display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
 }
-.square{
-  border:1px solid black;
-  
+.square {
+  border: 1px solid black;
+  position: relative;
 }
-.player-board{
+.player-board {
   margin-right: 1rem;
 }
 
-.computer-board{
+.computer-board {
   margin-left: 1rem;
 }
 
-.intro-screen{
+.intro-screen {
   position: absolute;
   background-color: black;
   color: white;
@@ -63,93 +65,124 @@ body {
   height: 100vh;
   text-align: center;
   display: block;
-  h1{
+  h1 {
     position: absolute;
-    transform:translate(-50%, -50%);
+    transform: translate(-50%, -50%);
     left: 50%;
     top: 50%;
-    
   }
-  
 }
 
-nav.intro-sidebar{
+nav.intro-sidebar {
   position: absolute;
   width: 250px;
-  border:1px solid black;
+  border: 1px solid black;
   height: 100vh;
   top: 0;
   background: #fff;
   padding: 10px;
   text-align: center;
   left: 0px;
-  transition: left 1s ease; 
-  ul{
-    margin-top:3rem;
+  transition: left 1s ease;
+  z-index: 1;
+  ul {
+    margin-top: 3rem;
   }
-  li{
-    padding-bottom:2rem;
+  li {
+    padding-bottom: 2rem;
   }
 }
-.hide-nav{
+.hide-nav {
   left: -250px !important;
 }
 
-.carrier{
-  display:grid;
+.carrier {
+  display: grid;
   width: calc(var(--square-width) * 5);
   //width: calc((25 * 5) * 1px );
   margin: auto;
   height: var(--square-width);
   grid-template-rows: repeat(1, 1fr);
   grid-template-columns: repeat(5, 1fr);
- 
 }
-.draggable{
-  cursor:pointer;
+.draggable {
+  cursor: pointer;
 }
 
-.dragging{
+.dragging {
   background-color: #d3d3d3;
 }
 
-.battleship{
+.battleship {
   @extend .carrier;
   width: calc(var(--square-width) * 4);
   grid-template-columns: repeat(4, 1fr);
 }
 
-.destroyer{
-   @extend .carrier;
-   width: calc(var(--square-width) * 3 );
-   grid-template-columns: repeat(3, 1fr);
+.destroyer {
+  @extend .carrier;
+  width: calc(var(--square-width) * 3);
+  grid-template-columns: repeat(3, 1fr);
 }
 
-.patrol{
+.patrol {
   @extend .carrier;
   width: calc(var(--square-width) * 2);
-  grid-template-columns: repeat(2 , 1fr);
+  grid-template-columns: repeat(2, 1fr);
 }
 
-.square-hover{
+.square-hover {
   background-color: $blue;
 }
 
-.square-ship{
+.square-ship {
   background-color: $red;
 }
+.output-field {
+  border: 1px solid black;
+  width: 50%;
+  margin: 0 auto 1rem;
+  text-align: center;
+}
+h2.output-message {
+  animation: fadeIn 2s;
+}
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 
-@media only screen and (min-width: 300px){
-  :root{
-    --game-width:250px;
+.hit-square {
+  background-color: blue;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.miss-square {
+  @extend .hit-square;
+  background-color: black;
+}
+
+@media only screen and (min-width: 300px) {
+  :root {
+    --game-width: 250px;
     --square-width: calc(var(--game-width) / 10);
   }
 }
 
-@media only screen and (min-width:1000px){
-  :root{
-    --game-width:300px;
+@media only screen and (min-width: 1000px) {
+  :root {
+    --game-width: 300px;
     --square-width: calc(var(--game-width) / 10);
   }
 }

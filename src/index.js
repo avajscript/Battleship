@@ -21,12 +21,61 @@ window.addEventListener(
   { once: true }
 ); */
 
-function playerMove(square) {
-  if (square.classlist.contains("square-ship")) {
+function displayActualText(msg) {
+  const h2Holder = document.querySelector(".output-field");
+  h2Holder.innerHTML = "";
+  const h2 = document.createElement("h2");
+  h2.classList.add("output-message");
+  h2Holder.appendChild(h2);
+  h2.innerText = msg;
+}
+
+function displayMessage(state) {
+  displayActualText("You clicked a square...");
+  if (state === true) {
+    setTimeout(() => {
+      displayActualText("You hit a ship!!");
+    }, 2000);
   } else {
+    setTimeout(() => {
+      displayActualText("You hit nothing...");
+    }, 2000);
   }
 }
 
+function playerMove(square) {
+  removeClicks(true);
+  let circle = document.createElement("div");
+  if (square.classList.contains("square-ship")) {
+    square.classList.add("hit");
+    circle.classList.add("hit-square");
+    displayMessage(true);
+  } else {
+    circle.classList.add("miss-square");
+    displayMessage(false);
+  }
+  square.appendChild(circle);
+}
+function removeClicks(state) {
+  const computerSquares = document.querySelectorAll(".computer-square");
+  if (state) {
+    computerSquares.forEach((square) => {
+      square.classList.remove("hover");
+      square.removeEventListener("click", (e) => {
+        playerMove(e.currentTarget);
+      });
+    });
+    setTimeout(() => {
+      computerSquares.forEach((square) => {
+        square.classList.add("hover");
+        square.addEventListener("click", (e) => {
+          playerMove(e.currentTarget);
+        });
+      });
+    }, 3000);
+  } else {
+  }
+}
 function startGame() {
   const computerBoardElem = document.querySelector(".computer-board"),
     computerSquares = document.querySelectorAll(".computer-square");
@@ -170,7 +219,7 @@ function preRenderEnemyShip(ship, amount) {
     for (let j = 0; j < length; j++) {
       indexes.push(parseInt(index) + j);
     }
-
+    computerBoard.shipCoords[ship].push(indexes);
     if (
       indexes.every((index) => {
         let square = document.querySelector(`#c-${index}`);

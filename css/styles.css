@@ -22,6 +22,10 @@ body {
   line-height: 75px;
 }
 
+.hover {
+  cursor: pointer;
+}
+
 .ship-val {
   position: absolute;
   left: 10px;
@@ -44,6 +48,7 @@ body {
 
 .square {
   border: 1px solid black;
+  position: relative;
 }
 
 .player-board {
@@ -82,6 +87,7 @@ nav.intro-sidebar {
   text-align: center;
   left: 0px;
   transition: left 1s ease;
+  z-index: 1;
 }
 
 nav.intro-sidebar ul {
@@ -129,23 +135,58 @@ nav.intro-sidebar li {
 }
 
 .square-hover {
-  background-color: #2E67F8;
+  background-color: #2e67f8;
 }
 
 .square-ship {
-  background-color: #EB212E;
+  background-color: #eb212e;
+}
+
+.output-field {
+  border: 1px solid black;
+  width: 50%;
+  margin: 0 auto 1rem;
+  text-align: center;
+}
+
+h2.output-message {
+  animation: fadeIn 2s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.hit-square, .miss-square {
+  background-color: blue;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.miss-square {
+  background-color: black;
 }
 
 @media only screen and (min-width: 300px) {
   :root {
-    --game-width:250px;
+    --game-width: 250px;
     --square-width: calc(var(--game-width) / 10);
   }
 }
 
 @media only screen and (min-width: 1000px) {
   :root {
-    --game-width:300px;
+    --game-width: 300px;
     --square-width: calc(var(--game-width) / 10);
   }
 }

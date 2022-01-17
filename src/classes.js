@@ -62,27 +62,33 @@ export class Gameboard {
     this.ships = [];
     this.shipDrag = {
       ship: "",
-      horizontal: true
+      horizontal: true,
     };
     this.shipInfo = {
       carrier: {
-        length: 5
+        length: 5,
       },
       battleship: {
-        length: 4
+        length: 4,
       },
       destroyer: {
-        length: 3
+        length: 3,
       },
       patrol: {
-        length: 2
-      }
+        length: 2,
+      },
     };
     this.shipsToRender = {
       carrier: 1,
       battleship: 1,
       destroyer: 2,
-      patrol: 1
+      patrol: 1,
+    };
+    this.shipCoords = {
+      carrier: [],
+      battleship: [],
+      destroyer: [],
+      patrol: [],
     };
   }
   renderShip() {}
