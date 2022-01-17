@@ -21,24 +21,71 @@ window.addEventListener(
   { once: true }
 ); */
 function computerMove() {
-  const index = randomNumber(BOARD_SQUARES * 10);
+  displayActualText("The enemy clicked a square...");
+  const index = randomNumber(BOARD_SQUARES);
+  const square = document.getElementById(index);
+  if (
+    square.classList.contains("hit") ||
+    square.classList.contains("miss-square")
+  ) {
+    computerMove();
+    return;
+  }
+  let circle = document.createElement("div");
+  if (square.classList.contains("square-ship")) {
+    square.classList.add("hit");
+    circle.classList.add("hit-square");
+    setTimeout(() => {
+      displayActualText("The enemy hit a square!");
+    }, 2000);
+    updateCoords(index, playerBoard);
+  } else {
+    circle.classList.add("miss-square");
+    setTimeout(() => {
+      displayActualText("The enemy missed...");
+    }, 2000);
+  }
+
+  square.appendChild(circle);
+}
+function endGame(playerWon) {}
+function checkAllDestroyed(board, boardIsComputer) {
+  const arrs = [];
+
+  for (const [shipName, shipArr] of Object.entries(board.shipCoords)) {
+    shipArr.forEach((arr) => {
+      arrs.push(arr);
+    });
+  }
+  const gameOver = arrs.every((arr) => {
+    return arr.length == 0;
+  });
+  if (gameOver) {
+    endGame(boardIsComputer);
+  }
 }
 function updateCoords(id, board) {
-  let realIndex;
+  const boardIsComputer = board === computerBoard;
   for (const [shipName, shipArr] of Object.entries(board.shipCoords)) {
-    shipArr.forEach((ship) => {
+    shipArr.forEach((ship, shipIndex) => {
       const index = ship.findIndex((shipValue) => {
         return shipValue == id;
       });
       if (index !== -1) {
         ship[index] += "-hit";
-        const state = ship.every((shipValue) => {
+        const shipDestroyed = ship.every((shipValue) => {
           return /-hit/.test(shipValue);
         });
-        if (state) {
+        if (shipDestroyed) {
+          shipArr[shipIndex] = [];
           setTimeout(() => {
-            displayActualText(`You destroyed a ${shipName}`);
+            displayActualText(
+              `${
+                boardIsComputer ? "You" : "The computer"
+              } destroyed a ${shipName}`
+            );
           }, 2000);
+          checkAllDestroyed(board, boardIsComputer);
         }
       }
     });
@@ -82,7 +129,9 @@ function playerMove(square) {
     displayMessage(false);
   }
   square.appendChild(circle);
-  computerMove();
+  setTimeout(() => {
+    computerMove();
+  }, 3500);
 }
 function removeClicks(state) {
   const computerSquares = document.querySelectorAll(".computer-square");
@@ -140,10 +189,12 @@ function updateGameboard(ship) {
 }
 function renderShip(squares, ship) {
   // Style squares
-
+  const indexes = [];
   squares.forEach((square) => {
     square.classList.add("square-ship");
+    indexes.push(square.id);
   });
+  playerBoard.shipCoords[ship].push(indexes);
   updateGameboard(ship);
 }
 function preRenderShip(square, ship, length, id) {
@@ -247,13 +298,14 @@ function preRenderEnemyShip(ship, amount) {
     for (let j = 0; j < length; j++) {
       indexes.push(parseInt(index) + j);
     }
-    computerBoard.shipCoords[ship].push(indexes);
+
     if (
       indexes.every((index) => {
         let square = document.querySelector(`#c-${index}`);
         return !square.classList.contains("square-ship");
       })
     ) {
+      computerBoard.shipCoords[ship].push(indexes);
       indexes.forEach((index) => {
         let square = document.querySelector(`#c-${index}`);
         square.classList.add("square-ship");
