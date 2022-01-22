@@ -20,6 +20,22 @@ window.addEventListener(
   },
   { once: true }
 ); */
+function resetGame(gameOverScreen) {
+  document.querySelector("main").removeChild(gameOverScreen);
+
+  const gameBoard = document.querySelector(".computer-board"),
+    playerBoard = document.querySelector(".player-board"),
+    shipVals = document.querySelectorAll("ship-val"),
+    vals = [1, 1, 2, 1];
+
+  [gameBoard, playerBoard].forEach((board) => {
+    board.innerHTML = "";
+  });
+  shipVals.forEach((val, index) => {
+    val.innerText = vals[index];
+  });
+  renderGame();
+}
 function computerMove() {
   displayActualText("The enemy clicked a square...");
   const index = randomNumber(BOARD_SQUARES);
@@ -48,7 +64,42 @@ function computerMove() {
 
   square.appendChild(circle);
 }
-function endGame(playerWon) {}
+
+function renderEndScreen(msg) {
+  const container = document.createElement("div"),
+    title = document.createElement("h1"),
+    playAgain = document.createElement("button");
+  container.classList.add("end-game-screen");
+  title.innerText = msg;
+  title.classList.add("end-game-title");
+  playAgain.classList.add("play-again-btn");
+  playAgain.innerText = "Play Again?";
+  playAgain.addEventListener("click", () => resetGame(container));
+
+  container.appendChild(title);
+  container.appendChild(playAgain);
+  displayActualText("");
+  document.querySelector("main").appendChild(container);
+}
+
+function endGame(playerWon) {
+  const computerSquares = document.querySelectorAll(".computer-square");
+  setTimeout(() => {
+    computerSquares.forEach((square) => {
+      square.classList.remove("hover");
+      square.removeEventListener("click", playerMove, true);
+    });
+  }, 3000);
+  if (playerWon) {
+    setTimeout(() => {
+      renderEndScreen("You won!");
+    }, 3000);
+  } else {
+    setTimeout(() => {
+      renderEndScreen("You lost!");
+    }, 3000);
+  }
+}
 function checkAllDestroyed(board, boardIsComputer) {
   const arrs = [];
 
@@ -66,6 +117,7 @@ function checkAllDestroyed(board, boardIsComputer) {
 }
 function updateCoords(id, board) {
   const boardIsComputer = board === computerBoard;
+  console.log(board.shipCoords);
   for (const [shipName, shipArr] of Object.entries(board.shipCoords)) {
     shipArr.forEach((ship, shipIndex) => {
       const index = ship.findIndex((shipValue) => {
@@ -138,7 +190,6 @@ function removeClicks(state) {
   if (state) {
     computerSquares.forEach((square) => {
       square.classList.remove("hover");
-      square.removeEventListener("click", playerMove, true);
     });
     setTimeout(() => {
       computerSquares.forEach((square) => {
@@ -353,9 +404,9 @@ export function renderGameBoards() {
   })();
 }
 
-const playerBoard = new Gameboard();
-const computerBoard = new Gameboard();
 function renderGame() {
+  window.playerBoard = new Gameboard();
+  window.computerBoard = new Gameboard();
   renderGameBoards();
   renderComputerBoard();
 }

@@ -177,6 +177,37 @@ h2.output-message {
   background-color: black;
 }
 
+.end-game-screen {
+  animation: fadeIn 2s;
+  position: absolute;
+  width: 50%;
+  height: 30%;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 0.25rem;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
+  transform: translateX(-50%);
+  left: 50%;
+  top: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.end-game-screen .play-again-btn {
+  border: 1px solid black;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
+  padding: 15px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.end-game-screen .play-again-btn:active {
+  box-shadow: none;
+  background-color: white;
+}
+
 @media only screen and (min-width: 300px) {
   :root {
     --game-width: 250px;
