@@ -20,12 +20,14 @@ window.addEventListener(
   },
   { once: true }
 ); */
+
 function resetGame(gameOverScreen) {
   document.querySelector("main").removeChild(gameOverScreen);
-
+  const navBar = document.querySelector(".intro-sidebar");
+  navBar.classList.remove("hide-nav");
   const gameBoard = document.querySelector(".computer-board"),
     playerBoard = document.querySelector(".player-board"),
-    shipVals = document.querySelectorAll("ship-val"),
+    shipVals = document.querySelectorAll(".ship-val"),
     vals = [1, 1, 2, 1];
 
   [gameBoard, playerBoard].forEach((board) => {
@@ -33,6 +35,9 @@ function resetGame(gameOverScreen) {
   });
   shipVals.forEach((val, index) => {
     val.innerText = vals[index];
+    let shipElem = val.nextElementSibling;
+    shipElem.classList.add("draggable");
+    shipElem.setAttribute("draggable", true);
   });
   renderGame();
 }
@@ -78,7 +83,10 @@ function renderEndScreen(msg) {
 
   container.appendChild(title);
   container.appendChild(playAgain);
-  displayActualText("");
+  setTimeout(() => {
+    displayActualText("");
+  }, 2000);
+
   document.querySelector("main").appendChild(container);
 }
 
@@ -117,7 +125,6 @@ function checkAllDestroyed(board, boardIsComputer) {
 }
 function updateCoords(id, board) {
   const boardIsComputer = board === computerBoard;
-  console.log(board.shipCoords);
   for (const [shipName, shipArr] of Object.entries(board.shipCoords)) {
     shipArr.forEach((ship, shipIndex) => {
       const index = ship.findIndex((shipValue) => {
