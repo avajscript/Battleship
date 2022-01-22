@@ -9,7 +9,9 @@ import {
 import { BOARD_SQUARES, shipNames } from "./variables.js";
 
 const introScreen = document.querySelector(".intro-screen"),
-  draggables = document.querySelectorAll(".draggable");
+  draggables = document.querySelectorAll(".draggable"),
+  GAME_SPEED = 2000;
+let GAME_SPEED_MULTIPLIER = 1;
 // Functions
 /* 
 window.addEventListener(
@@ -58,13 +60,13 @@ function computerMove() {
     circle.classList.add("hit-square");
     setTimeout(() => {
       displayActualText("The enemy hit a square!");
-    }, 2000);
+    }, GAME_SPEED / GAME_SPEED_MULTIPLIER);
     updateCoords(index, playerBoard);
   } else {
     circle.classList.add("miss-square");
     setTimeout(() => {
       displayActualText("The enemy missed...");
-    }, 2000);
+    }, GAME_SPEED / GAME_SPEED_MULTIPLIER);
   }
 
   square.appendChild(circle);
@@ -164,11 +166,11 @@ function displayMessage(state) {
   if (state === true) {
     setTimeout(() => {
       displayActualText("You hit a ship!!");
-    }, 2000);
+    }, GAME_SPEED / GAME_SPEED_MULTIPLIER);
   } else {
     setTimeout(() => {
       displayActualText("You hit nothing...");
-    }, 2000);
+    }, GAME_SPEED / GAME_SPEED_MULTIPLIER);
   }
 }
 
@@ -190,7 +192,7 @@ function playerMove(square) {
   square.appendChild(circle);
   setTimeout(() => {
     computerMove();
-  }, 3500);
+  }, GAME_SPEED / GAME_SPEED_MULTIPLIER + GAME_SPEED / GAME_SPEED_MULTIPLIER);
 }
 function removeClicks(state) {
   const computerSquares = document.querySelectorAll(".computer-square");
@@ -209,7 +211,7 @@ function removeClicks(state) {
           square.addEventListener("click", playerMove, true);
         }
       });
-    }, 3000);
+    }, GAME_SPEED / GAME_SPEED_MULTIPLIER + (GAME_SPEED + 1000) / GAME_SPEED_MULTIPLIER);
   } else {
   }
 }
@@ -410,6 +412,18 @@ export function renderGameBoards() {
     }
   })();
 }
+function setMultiplier() {
+  let multiplierLevel =
+    multiplier.firstChild.nextSibling.innerText.match(/\d/)[0];
+
+  if (multiplierLevel >= 4) {
+    multiplierLevel = 1;
+  } else {
+    multiplierLevel++;
+  }
+  GAME_SPEED_MULTIPLIER = multiplierLevel;
+  multiplier.firstChild.nextSibling.innerText = `${multiplierLevel}x`;
+}
 
 function renderGame() {
   window.playerBoard = new Gameboard();
@@ -418,3 +432,12 @@ function renderGame() {
   renderComputerBoard();
 }
 renderGame();
+const multiplier = document.querySelector(".multiplier"),
+  tooltip = document.querySelector(".hidden");
+multiplier.addEventListener("mouseover", () => {
+  tooltip.style.opacity = 1;
+});
+multiplier.addEventListener("mouseout", () => {
+  tooltip.style.opacity = 0;
+});
+multiplier.addEventListener("click", setMultiplier);

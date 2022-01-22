@@ -138,6 +138,9 @@ nav.intro-sidebar {
 .square-ship {
   background-color: $red;
 }
+.computer-square.square-ship {
+  background-color: white;
+}
 .output-field {
   border: 1px solid black;
   width: 50%;
@@ -199,6 +202,34 @@ h2.output-message {
       box-shadow: none;
       background-color: white;
     }
+  }
+}
+.multiplier {
+  position: fixed;
+  right: 5%;
+  top: 5%;
+  border: 1px solid black;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 4;
+  transition: background-color 1s ease;
+  &:hover {
+    background-color: lightpink;
+  }
+  h1 {
+    color: black !important;
+  }
+  .hidden {
+    position: absolute;
+    top: 100%;
+    left: 0%;
+    border: 1px solid red;
+    text-align: center;
+    z-index: 5;
+    background: white;
+    opacity: 0;
+    transition: opacity 1s ease;
+    cursor: default;
   }
 }
 @media only screen and (min-width: 300px) {
