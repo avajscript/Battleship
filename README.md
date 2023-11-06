@@ -2,4 +2,4 @@
 Created with CodeSandbox
 
 ## Check it out
-https://miscany.github.io/Battleship/
+https://avajscript.github.io/Battleship/
